@@ -32,9 +32,24 @@ import swPrecache from 'sw-precache';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import {output as pagespeed} from 'psi';
 import pkg from './package.json';
+import through from 'through2';
+import swig from 'swig';
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
+
+// Decorates stream input with page.html template in _templates dir
+function applyTemplate() {
+  return through.obj(function(file, enc, cb) {
+    let templatePath = path.join(__dirname, 'app', '_templates', 'page.html');
+    let template = swig.compileFile(templatePath, {cache: false});
+    file.contents = new Buffer(template({
+      page: 'test',
+      content: file.contents.toString()}), 'utf8');
+    this.push(file);
+    cb();
+  });
+};
 
 // Lint JavaScript
 gulp.task('jshint', () =>
@@ -61,7 +76,8 @@ gulp.task('copy', () =>
   gulp.src([
     'app/*',
     '!app/*.html',
-    'node_modules/apache-server-configs/dist/.htaccess'
+    'node_modules/apache-server-configs/dist/.htaccess',
+    '!app/_*'
   ], {
     dot: true
   }).pipe(gulp.dest('dist'))
@@ -125,6 +141,23 @@ gulp.task('scripts', () =>
     .pipe($.size({title: 'scripts'}))
 );
 
+// Compiles pages unders _pages/ directory using markdown and swig
+// (Wow! this looks really familiar to gulpfile from MDL site...)
+gulp.task('pages', () =>
+  gulp.src(['./app/_pages/**/*.md'])
+    .pipe($.frontMatter({property: 'page', remove: true}))
+    .pipe($.marked())
+    .pipe(applyTemplate())
+    .pipe($.replace('class="lang-', 'class="language-'))
+    /* Translate html code blocks to "markup" because that's what Prism uses. */
+    .pipe($.replace('class="language-html', 'class="language-markup'))
+    .pipe($.rename({
+      extname: '.html'
+    }))
+    .pipe(gulp.dest('app'))
+    .pipe($.size({title: 'pages'}))
+);
+
 // Scan your HTML for assets & optimize them
 gulp.task('html', () => {
   const assets = $.useref.assets({searchPath: '{.tmp,app}'});
@@ -162,7 +195,7 @@ gulp.task('html', () => {
 gulp.task('clean', cb => del(['.tmp', 'dist/*', '!dist/.git'], {dot: true}, cb));
 
 // Watch files for changes & reload
-gulp.task('serve', ['styles'], () => {
+gulp.task('serve', ['styles', 'pages'], () => {
   browserSync({
     notify: false,
     // Customize the BrowserSync console logging prefix
@@ -174,7 +207,8 @@ gulp.task('serve', ['styles'], () => {
     server: ['.tmp', 'app']
   });
 
-  gulp.watch(['app/**/*.html'], reload);
+  gulp.watch(['app/**/*.html', '!app/_templates/**/*.html'], reload);
+  gulp.watch(['app/_pages/**/*.md', 'app/_templates/**/*.html'], ['pages', reload]);
   gulp.watch(['app/styles/**/*.{scss,css}'], ['styles', reload]);
   gulp.watch(['app/scripts/**/*.js'], ['jshint']);
   gulp.watch(['app/images/**/*'], reload);
@@ -198,6 +232,7 @@ gulp.task('serve:dist', ['default'], () =>
 gulp.task('default', ['clean'], cb =>
   runSequence(
     'styles',
+    'pages',
     ['jshint', 'html', 'scripts', 'images', 'fonts', 'copy'],
     'generate-service-worker',
     cb
