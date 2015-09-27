@@ -34,7 +34,6 @@ html, body {
   }
 
   main {
-    margin-bottom: $footer-height + 5px;
     > header {
       padding: 10px;
     }
@@ -71,9 +70,6 @@ html, body {
 
   .mdl-mega-footer {
     color: white;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
     height: $footer-height;
   }
 
