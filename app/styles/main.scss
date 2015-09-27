@@ -34,7 +34,7 @@ html, body {
   }
 
   main {
-    margin-bottom: -$footer-height;
+    margin-bottom: $footer-height + 5px;
     > header {
       padding: 10px;
     }
