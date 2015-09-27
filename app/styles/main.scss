@@ -16,6 +16,8 @@
 
 @import "colors";
 
+$footer-height: 25px;
+
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
   margin: 0;
@@ -31,8 +33,11 @@ html, body {
     }
   }
 
-  main > header {
-    padding: 10px;
+  main {
+    margin-bottom: -$footer-height;
+    > header {
+      padding: 10px;
+    }
   }
 
   section.section--center {
@@ -62,6 +67,25 @@ html, body {
         color: $neutron-blue;
       }
     }
+  }
+
+  .mdl-mega-footer {
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: $footer-height;
+  }
+
+  .social-btn__github {
+    display: inline-block;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background-image: url('/images/icons/github_white_24.svg');
   }
 }
 
