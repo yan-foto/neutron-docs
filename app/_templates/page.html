@@ -42,20 +42,24 @@
           <img src="/images/neutron-blue-light.svg" alt="neutron" />
         </span>
         <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="">Link</a>
+          <a class="mdl-navigation__link {% if page.id == 'index' %}is-active{% endif %}" href="/">
+            Getting started!
+          </a>
           <a class="mdl-navigation__link" href="">Link</a>
           <a class="mdl-navigation__link" href="">Link</a>
           <a class="mdl-navigation__link" href="">Link</a>
         </nav>
       </div>
       <main class="mdl-layout__content">
-        <header class="mdl-layout__header">
-          <span class="mdl-typography--display-1">{{page.title}}</span>
-        </header>
         <section class="section--center mdl-grid mdl-shadow--2dp">
-          {% block content %}
-            {{content|safe}}
-          {% endblock %}
+          <header class="mdl-card__title mdl-color">
+            <span class="mdl-typography--title">{{page.title}}</span>
+          </header>
+          <div class="mdl-card__supporting-text">
+            {% block content %}
+              {{content|safe}}
+            {% endblock %}
+          </div>
         </section>
         <footer class="mdl-mega-footer">
           <div class="mdl-mega-footer--middle-section">

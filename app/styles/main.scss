@@ -51,6 +51,17 @@ html, body {
   // Code blocks
   pre {
     width: 100%;
+    background-color: rgb(245,245,245); // mdl-color--grey-100;
+    padding: 10px;
+  }
+
+  .mdl-navigation {
+    .mdl-navigation__link {
+      &.is-active {
+        font-weight: bold;
+        color: $neutron-blue;
+      }
+    }
   }
 }
 
