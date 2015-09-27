@@ -44,7 +44,7 @@ function applyTemplate() {
     let templatePath = path.join(__dirname, 'app', '_templates', 'page.html');
     let template = swig.compileFile(templatePath, {cache: false});
     file.contents = new Buffer(template({
-      page: 'test',
+      page: file.page,
       content: file.contents.toString()}), 'utf8');
     this.push(file);
     cb();
