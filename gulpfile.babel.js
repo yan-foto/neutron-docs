@@ -53,7 +53,7 @@ function applyTemplate() {
 
 // Lint JavaScript
 gulp.task('jshint', () =>
-  gulp.src('app/scripts/**/*.js')
+  gulp.src(['app/scripts/**/*.js', '!app/scripts/third-party/**/*.js'])
     .pipe(reload({stream: true, once: true}))
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish'))
