@@ -148,6 +148,7 @@ gulp.task('pages', () =>
     .pipe($.frontMatter({property: 'page', remove: true}))
     .pipe($.marked())
     .pipe(applyTemplate())
+    /* Replacing code blocks class name to match Prism's. */
     .pipe($.replace('class="lang-', 'class="language-'))
     /* Translate html code blocks to "markup" because that's what Prism uses. */
     .pipe($.replace('class="language-html', 'class="language-markup'))
