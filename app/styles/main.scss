@@ -25,10 +25,11 @@ html, body {
 .mdl-neutron {
   .logo {
     padding: 0;
+    height: 100%;
+  }
 
-    img {
-      height: 100%;
-    }
+  .mdl-layout__drawer-button {
+    color: #ffffff;
   }
 
   main {
