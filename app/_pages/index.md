@@ -36,3 +36,5 @@ The `package.json` file can also be created using `gulp electron-manifest`. To s
 ```
 npm start
 ```
+
+The next step is to [customize](./customization.html) neutron!
