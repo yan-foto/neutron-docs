@@ -16,8 +16,6 @@
 
 @import "colors";
 
-$footer-height: 25px;
-
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
   margin: 0;
@@ -70,7 +68,6 @@ html, body {
 
   .mdl-mega-footer {
     color: white;
-    height: $footer-height;
   }
 
   .social-btn__github {
