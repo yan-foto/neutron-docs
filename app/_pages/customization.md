@@ -35,7 +35,7 @@ assets should be copied directly to the production directory:
 
 #### Packaging
 Packaging is done using [`electron-packager`](https://www.npmjs.com/package/electron-packager)
-module. The object provided under `packager` key is directly passed to this module.
+module. The object provided under `packager` key is directly passed to this module. Read more about packaging [here](./packaging.html).
 
 #### Example
 ```js
